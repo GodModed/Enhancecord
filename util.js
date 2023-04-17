@@ -53,7 +53,29 @@ export async function injectToFile() {
                 name: "Enhancecord",
                 comment: "A lightweight themed Discord Launcher"
             }
-        })
+        });
+        // get index.js file in discord-desktop-core-1/discord_desktop_core and append javascript to it
+        const javascript = `
+        const electron = require("electron");
+        electron.session.defaultSession.webRequest.onHeadersReceived(function(details, callback) {
+            const headers = Object.keys(details.responseHeaders);
+            for (let h = 0; h < headers.length; h++) {
+                const key = headers[h];
+                if (key.toLowerCase().indexOf("content-security-policy") !== 0) continue;
+                delete details.responseHeaders[key];
+            }
+            callback({cancel: false, responseHeaders: details.responseHeaders});
+        });
+        `
+        // check if index.js.bak exists
+        const indexFileBakExists = await fsExists(`C:\\Users\\${hostUsername}\\AppData\\Local\\${discord}\\${appFolder}\\modules\\discord_desktop_core-1\\discord_desktop_core\\index.js.bak`);
+        if (!indexFileBakExists) {
+            const indexFile = `C:\\Users\\${hostUsername}\\AppData\\Local\\${discord}\\${appFolder}\\modules\\discord_desktop_core-1\\discord_desktop_core\\index.js`;
+            // backup index.js
+            await fs.promises.copyFile(indexFile, `${indexFile}.bak`);
+            // append javascript to index.js
+            await fs.promises.appendFile(indexFile, javascript);
+        }
     };
 }
 
