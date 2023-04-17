@@ -45,5 +45,3 @@ You can use commands in the terminal to reload the theme or quit the server.
 * Add support for plugins
 * Create a plugin API
 * Add a plugin manager
-* Create a CONTRIBUTING.md file
-* Create a LEARN.md file
