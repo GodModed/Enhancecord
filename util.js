@@ -50,7 +50,7 @@ export async function injectToFile() {
             windows: {
                 filePath: `C:\\Users\\${hostUsername}\\AppData\\Local\\${discord}\\${appFolder}\\Discord.exe`,
                 arguments: `--remote-debugging-port=9223`,
-                name: "Themed Discord",
+                name: "Enhancecord",
                 comment: "A lightweight themed Discord Launcher"
             }
         })
